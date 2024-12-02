@@ -2,18 +2,19 @@
 // Jayden Johnson
 // 12/2/2024
 
-let NUM_ROWS = 5;
-let NUM_COLS = 9;
+const NUM_ROWS = 6;
+const NUM_COLS = 11;
 
 let rectWidth, rectHeight;
 let currentRow, currentCol;
 
 let plantGrid =
-  [[0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0]];
+  [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 
 let draggedPlant = 1;
@@ -24,7 +25,14 @@ let draggedPlant = 1;
 
 
 //Image Variables
-let mainBG;
+let house;
+let fence;
+let lawn;
+let sidewalk;
+
+
+
+
 
 let peashooter;
 
@@ -34,13 +42,16 @@ let peashooter;
 
 
 
-
-
-
-
 function preload() {
-  mainBG = loadImage('assets/Main_BG.png');
+  fence = loadImage('assets/fence.jpg');
+  house = loadImage('assets/House.png');
+  lawn = loadImage('assets/lawn.PNG')
+  sidewalk = loadImage('assets/Sidewalk.png');
+
+
+
   peashooter = loadImage('assets/peashooter.gif');
+
 }
 
 
@@ -50,7 +61,7 @@ function preload() {
 
 function setup() {
   createCanvas(1900, 1000);
-  imageMode(CENTER);
+  
 
   rectWidth = width / NUM_COLS;
   rectHeight = height / NUM_ROWS;
@@ -74,10 +85,13 @@ function determineActiveSquare() {
 function drawGrid() {
   for (let x = 0; x < NUM_COLS; x++) {
     for (let y = 0; y < NUM_ROWS; y++) {
-      fill(0,0,0,0);
-      rect(x * rectWidth + 300, y * rectHeight + 150, rectWidth, rectHeight);
-      if(plantGrid[y][x]=== 1){
-        image(peashooter,currentCol*rectWidth,currentRow*rectHeight,100,100);
+      fill(0, 0, 0, 0);
+      stroke(0, 0, 0, 30)
+      //rect(x * rectWidth, y * rectHeight, rectWidth, rectHeight);
+      if (plantGrid[y][x] === 1) {
+        if (x > 0 && x < 10 && y > 0) {
+          image(peashooter, x * rectWidth + 50, y * rectHeight + 25, 75, 75);
+        }
       }
 
     }
@@ -87,5 +101,10 @@ function drawGrid() {
 
 
 function drawBackground() {
-  image(mainBG, width / 2, height / 2, 1900, 1000);
+  image(house, -115, 0);
+  image(fence, 190, 0, 1537, 170);
+  image(lawn, 190, 165, 1537, 850)
+  
+
+  image(sidewalk, 1727, 0, 200, 1000);
 }
