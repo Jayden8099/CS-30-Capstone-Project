@@ -21,10 +21,20 @@ let plantGrid =
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]];
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 
 let draggedPlant;
+
+
+//SeedBar Variables
+
+let seedX, seedY, barLeft, barRight, barTop, barBottom;
+let seedW, seedH;
+let collision = false;
+let sN;
+
+
 
 
 
@@ -40,26 +50,36 @@ let lawn;
 let sidewalk;
 
 
+
+
 let plantList = [];
-
-
 let peashooter;
+let sunflower;
 
 
-
+let peashooterSeed;
 
 
 
 
 function preload() {
+  //background
   fence = loadImage('assets/fence.jpg');
   house = loadImage('assets/House.png');
   lawn = loadImage('assets/lawn.PNG');
   sidewalk = loadImage('assets/Sidewalk.png');
 
 
-
+  //plants
   peashooter = loadImage('assets/peashooter.gif');
+  sunflower = loadImage('assets/sunflower.gif');
+
+
+
+
+
+  //seedbar
+  peashooterSeed = loadImage('assets/PeashooterSeedPack.png');
 
 }
 
@@ -74,9 +94,6 @@ function setup() {
 
   rectWidth = width / NUM_COLS;
   rectHeight = height / NUM_ROWS;
-
-  plantList.push(new plants(1, 1, 1, plantGrid));
-
 }
 
 
@@ -93,9 +110,13 @@ function setup() {
 
 function draw() {
   background(255);
+
   determineActiveSquare();
   drawBackground();
   drawGrid();
+  seedBar();
+
+
 
 
   for (let i = 0; i < plantList.length; i++) {
@@ -110,18 +131,26 @@ function draw() {
   if (draggedPlant === 1) {
     image(peashooter, mouseX - 25, mouseY - 50, 75, 75);
   }
+  else if(draggedPlant === 2){
+    image(sunflower, mouseX - 25, mouseY - 50, 75, 75);
+  }
 
 }
 
 
 
 function mouseDragged() {
-  draggedPlant = 1;
+  if (collision && sN === 1) {
+    draggedPlant = 1;
+  }
 
 }
 
 function mouseReleased() {
-  draggedPlant = 0;
+  if (draggedPlant === 1) {
+    plantList.push(new plants(currentCol, currentRow, 1, plantGrid));
+    draggedPlant = null;
+  }
 }
 
 
@@ -148,12 +177,6 @@ function drawGrid() {
 
       rect(x * rectWidth, y * rectHeight, rectWidth, rectHeight);
       pop();
-      // if (plantGrid[y][x] === 1) {
-      //   if (x > 0 && x < 10 && y > 0) {
-      //     image(peashooter, x * rectWidth + 50, y * rectHeight + 35, 75, 75);
-      //   }
-      // }
-
     }
   }
 }
@@ -181,8 +204,8 @@ class plants {
   }
 
   update() {
-    if(this.type === 1){
-      this.plantGrid[this.col][this.row] = 1;
+    if (this.type === 1) {
+      this.plantGrid[this.row][this.col] = 1;
     }
   }
 
@@ -203,6 +226,63 @@ class plants {
       }
     }
   }
+
+
+
+
+
+}
+
+
+
+function seedBar() {
+
+  push();
+  rectMode(CENTER);
+  seedX = 500;
+  seedY = 80;
+  seedW = 175;
+  seedH = 125;
+
+  barLeft = seedX - seedW / 2;
+  barRight = seedX + seedW / 2;
+  barTop = seedY - seedH / 2;
+  barBottom = seedY + seedH / 2;
+
+  fill(255, 255, 255, 0);
+  noStroke();
+  rect(seedX, seedY, seedW, seedH);
+  image(peashooterSeed, seedX - seedW / 2, seedY - seedH / 2, 175, 125);
+  pop();
+
+  if (mouseX > barLeft && mouseX < barRight) {
+    if (mouseY > barTop && mouseY < barBottom) {
+      collision = true;
+      sN = 1;
+    }
+    else {
+      collision = false;
+      sN = null;
+    }
+  }
+  else {
+    collision = false;
+    sN = null;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
