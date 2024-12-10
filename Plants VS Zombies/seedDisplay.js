@@ -1,4 +1,5 @@
 //Parent Class
+//used to display the seedbar
 class seedDisplay {
     constructor(x, y, w, h, type) {
       this.x = x; //xpos
@@ -50,6 +51,30 @@ class seedDisplay {
         pop();
   
       }
+      else if(this.type === 4){
+        push();
+        rectMode(CENTER);
+        fill(255, 255, 255, 0);
+        noStroke();
+  
+  
+        rect(this.x, this.y, this.w, this.h);
+        image(potatoSeed, this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        pop();
+  
+      }
+      else if(this.type === 5){
+        push();
+        rectMode(CENTER);
+        fill(255, 255, 255, 0);
+        noStroke();
+  
+  
+        rect(this.x, this.y, this.w, this.h);
+        image(repeaterSeed , this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        pop();
+  
+      }
     }
   
     colCheck() {
@@ -66,11 +91,18 @@ class seedDisplay {
           else if(this.type === 3){
             sN = 3;
           }
+          else if(this.type === 4){
+            sN = 4;
+          }
+          else if(this.type === 5){
+            sN = 5;
+          }
   
         }
         else {
           collision = false;
           sN = null;
+          
         }
       }
     }

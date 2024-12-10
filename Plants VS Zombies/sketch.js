@@ -37,7 +37,8 @@ let sN;
 
 
 
-
+let sunAmount;
+let sunList = [];
 
 
 
@@ -54,9 +55,12 @@ let sidewalk;
 
 //plants
 let plantList = [];
+
 let peashooter;
 let sunflower;
 let wallnut;
+let potato;
+let repeater;
 
 //seedbar
 let seedList = [];
@@ -64,6 +68,8 @@ let seedList = [];
 let peashooterSeed;
 let sunflowerSeed;
 let wallnutSeed;
+let potatoSeed;
+let repeaterSeed;
 
 
 
@@ -80,7 +86,8 @@ function preload() {
   peashooter = loadImage('assets/peashooter.gif');
   sunflower = loadImage('assets/sunflower.gif');
   wallnut = loadImage('assets/WallNut.gif');
-
+  potato = loadImage('assets/Potato.gif');
+  repeater = loadImage('assets/Repeater.gif');
 
 
 
@@ -88,7 +95,9 @@ function preload() {
   //seedbar
   peashooterSeed = loadImage('assets/PeashooterSeedPack.png');
   sunflowerSeed = loadImage('assets/SunflowerSeedPack.png');
-  wallnutSeed = loadImage('assets/WallNutSeed.png')
+  wallnutSeed = loadImage('assets/WallNutSeed.png');
+  potatoSeed = loadImage('assets/PotatoMineSeed.png');
+  repeaterSeed = loadImage('assets/RepeaterSeedPacket.png')
 
 }
 
@@ -108,26 +117,17 @@ function setup() {
   seedList.push(new seedDisplay(500, 80, 160, 110, 1));
   seedList.push(new seedDisplay(665, 80, 165, 114, 2));
   seedList.push(new seedDisplay(832, 80, 165, 110, 3));
+  seedList.push(new seedDisplay(1000, 79, 165, 115, 4));
+  seedList.push(new seedDisplay(1170, 80, 165, 110, 5));
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
 function draw() {
   background(255);
-
   determineActiveSquare();
   drawBackground();
-  drawGrid();
+  //drawGrid();
 
 
 
@@ -155,52 +155,33 @@ function draw() {
   else if (draggedPlant === 3) {
     image(wallnut, mouseX - 25, mouseY - 50, 75, 75);
   }
+  else if (draggedPlant === 4) {
+    image(potato, mouseX - 25, mouseY - 50, 75, 75);
+  }
+  else if (draggedPlant === 5) {
+    image(repeater, mouseX - 50, mouseY - 50, 100, 100);
+  }
 }
 
 
 //determines what plant is being dragged
 function mouseDragged() {
-  if (collision && sN === 1 && draggedPlant === null) {
-    draggedPlant = 1;
+  if (collision && sN && draggedPlant === null) {
+    draggedPlant = sN;
     collision = false;
   }
-  else if (collision && sN === 2 && draggedPlant === null) {
-    draggedPlant = 2;
-    collision = false;
-  }
-  else if (collision && sN === 3 && draggedPlant === null) {
-    draggedPlant = 3;
-    collision = false;
-  }
+
 
 }
 
 //if the mouse is over a valid position drops the selected plant at that location
 function mouseReleased() {
-  if (draggedPlant === 1) {
-    plantList.push(new plants(currentCol, currentRow, 1, plantGrid));
+  if (draggedPlant) {
+    plantList.push(new plants(currentCol, currentRow, draggedPlant, plantGrid));
     draggedPlant = null;
     collision = false;
-
-  }
-  else if (draggedPlant === 2) {
-    plantList.push(new plants(currentCol, currentRow, 2, plantGrid));
-    draggedPlant = null;
-    collision = false;
-
-  }
-  else if (draggedPlant === 3) {
-    plantList.push(new plants(currentCol, currentRow, 3, plantGrid));
-    draggedPlant = null;
-    collision = false;
-
   }
 }
-
-
-
-
-
 
 
 
@@ -240,56 +221,7 @@ function drawBackground() {
 
 
 
-//Holds all plants and locations
-class plants {
-  constructor(col, row, type, plantGrid) {
-    this.col = col;
-    this.row = row;
-    this.type = type;
-    this.plantGrid = plantGrid;
-  }
 
-  //updates the grid to the selected plant
-  update() {
-    if (this.type === 1 && this.plantGrid[this.row][this.col] === 0) {
-      this.plantGrid[this.row][this.col] = 1;
-    }
-    else if (this.type === 2 && this.plantGrid[this.row][this.col] === 0) {
-      this.plantGrid[this.row][this.col] = 2;
-    }
-    else if (this.type === 3 && this.plantGrid[this.row][this.col] === 0) {
-      this.plantGrid[this.row][this.col] = 3;
-    }
-  }
-
-
-
-
-
-
-
-  display() {
-    for (let x = 0; x < NUM_COLS; x++) {
-      for (let y = 0; y < NUM_ROWS; y++) {
-        if (this.plantGrid[y][x] === 1) {
-          if (x > 0 && x < 10 && y > 0) {
-            image(peashooter, x * rectWidth + 35, y * rectHeight + 20, 100, 100);
-          }
-        }
-        else if (this.plantGrid[y][x] === 2) {
-          if (x > 0 && x < 10 && y > 0) {
-            image(sunflower, x * rectWidth + 35, y * rectHeight + 20, 100, 100);
-          }
-        }
-        else if (this.plantGrid[y][x] === 3) {
-          if (x > 0 && x < 10 && y > 0) {
-            image(wallnut, x * rectWidth + 35, y * rectHeight + 25, 100, 100);
-          }
-        }
-      }
-    }
-  }
-}
 
 
 
