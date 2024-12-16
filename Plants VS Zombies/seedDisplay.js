@@ -82,21 +82,10 @@ class seedDisplay {
       if (mouseX > this.left && mouseX < this.right) {
         if (mouseY > this.top && mouseY < this.bottom) {
           collision = true;
-          if (this.type === 1) {
-            sN = 1;
+          if (this.type) {
+            sN = this.type;
           }
-          else if(this.type === 2){
-            sN = 2;
-          }
-          else if(this.type === 3){
-            sN = 3;
-          }
-          else if(this.type === 4){
-            sN = 4;
-          }
-          else if(this.type === 5){
-            sN = 5;
-          }
+
   
         }
         else {

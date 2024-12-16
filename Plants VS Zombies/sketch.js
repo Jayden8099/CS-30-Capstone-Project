@@ -37,8 +37,9 @@ let sN;
 
 
 
-let sunAmount;
+let sunAmount= 50
 let sunList = [];
+let sunImage;
 
 
 
@@ -99,6 +100,10 @@ function preload() {
   potatoSeed = loadImage('assets/PotatoMineSeed.png');
   repeaterSeed = loadImage('assets/RepeaterSeedPacket.png')
 
+
+
+  //sun
+  sunImage = loadImage('assets/sun.gif')
 }
 
 
@@ -119,6 +124,8 @@ function setup() {
   seedList.push(new seedDisplay(832, 80, 165, 110, 3));
   seedList.push(new seedDisplay(1000, 79, 165, 115, 4));
   seedList.push(new seedDisplay(1170, 80, 165, 110, 5));
+
+
 }
 
 
@@ -127,8 +134,10 @@ function draw() {
   background(255);
   determineActiveSquare();
   drawBackground();
+  sunDisplay();
   //drawGrid();
-
+  
+  
 
 
 
@@ -140,6 +149,11 @@ function draw() {
   for (let i = 0; i < seedList.length; i++) {
     seedList[i].display();
     seedList[i].colCheck();
+  }
+  for (let i = 0; i < sunList.length; i++) {
+    sunList[i].display();
+    sunList[i].sunColCheck();
+
   }
 
 
@@ -218,7 +232,31 @@ function drawBackground() {
 }
 
 
+function sunDisplay(){
 
+  if(frameCount % 720 === 0){
+    sunList.push(new sun(0, random(100, width - 100)));
+  }
+
+
+
+
+
+
+  //sun amount at the top
+  push();
+  fill(214,181,136)
+  rect(280,25,125,160);
+  pop();
+
+  push()
+  fill(0);
+  textSize(35);
+  text(sunAmount,325,160);
+  pop();
+  
+  image(sunImage,305,25)
+}
 
 
 
