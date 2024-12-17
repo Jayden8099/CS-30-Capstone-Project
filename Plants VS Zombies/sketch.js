@@ -37,9 +37,11 @@ let sN;
 
 
 
-let sunAmount= 50
+let sunAmount = 50
 let sunList = [];
 let sunImage;
+
+let plantCost;
 
 
 
@@ -136,8 +138,8 @@ function draw() {
   drawBackground();
   sunDisplay();
   //drawGrid();
-  
-  
+
+
 
 
 
@@ -152,7 +154,11 @@ function draw() {
   }
   for (let i = 0; i < sunList.length; i++) {
     sunList[i].display();
-    sunList[i].sunColCheck();
+    if (sunList[i].sunColCheck()) {
+      sunList.splice(i, 1);
+      sunAmount += 50;
+    }
+
 
   }
 
@@ -161,19 +167,34 @@ function draw() {
 
   //used for dragging from seedbar
   if (draggedPlant === 1) {
-    image(peashooter, mouseX - 25, mouseY - 50, 75, 75);
+    plantCost = 100;
+    if (sunAmount >= plantCost) {
+      image(peashooter, mouseX - 25, mouseY - 50, 75, 75);
+    }
   }
   else if (draggedPlant === 2) {
-    image(sunflower, mouseX - 25, mouseY - 50, 75, 75);
+    plantCost = 50;
+    if (sunAmount >= plantCost) {
+      image(sunflower, mouseX - 25, mouseY - 50, 75, 75);
+    }
   }
   else if (draggedPlant === 3) {
-    image(wallnut, mouseX - 25, mouseY - 50, 75, 75);
+    plantCost = 75;
+    if (sunAmount >= plantCost) {
+      image(wallnut, mouseX - 25, mouseY - 50, 75, 75);
+    }
   }
   else if (draggedPlant === 4) {
-    image(potato, mouseX - 25, mouseY - 50, 75, 75);
+    plantCost = 50;
+    if (sunAmount >= plantCost) {
+      image(potato, mouseX - 25, mouseY - 50, 75, 75);
+    }
   }
   else if (draggedPlant === 5) {
-    image(repeater, mouseX - 50, mouseY - 50, 100, 100);
+    plantCost = 200;
+    if (sunAmount >= plantCost) {
+      image(repeater, mouseX - 50, mouseY - 50, 100, 100);
+    }
   }
 }
 
@@ -191,7 +212,12 @@ function mouseDragged() {
 //if the mouse is over a valid position drops the selected plant at that location
 function mouseReleased() {
   if (draggedPlant) {
-    plantList.push(new plants(currentCol, currentRow, draggedPlant, plantGrid));
+    if (draggedPlant && sunAmount >= plantCost) {
+      plantList.push(new plants(currentCol, currentRow, draggedPlant, plantGrid));
+      if (plantGrid[currentCol][currentRow] === 0) {
+        sunAmount -= plantCost;
+      }
+    }
     draggedPlant = null;
     collision = false;
   }
@@ -232,9 +258,9 @@ function drawBackground() {
 }
 
 
-function sunDisplay(){
+function sunDisplay() {
 
-  if(frameCount % 720 === 0){
+  if (frameCount % 120 === 0) {
     sunList.push(new sun(0, random(100, width - 100)));
   }
 
@@ -245,17 +271,18 @@ function sunDisplay(){
 
   //sun amount at the top
   push();
-  fill(214,181,136)
-  rect(280,25,125,160);
+  fill(214, 181, 136)
+  rect(280, 25, 125, 160);
   pop();
 
   push()
   fill(0);
   textSize(35);
-  text(sunAmount,325,160);
+  textAlign(CENTER);
+  text(sunAmount, 342, 160);
   pop();
-  
-  image(sunImage,305,25)
+
+  image(sunImage, 305, 25)
 }
 
 
