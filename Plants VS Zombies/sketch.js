@@ -211,16 +211,15 @@ function mouseDragged() {
 
 //if the mouse is over a valid position drops the selected plant at that location
 function mouseReleased() {
-  if (draggedPlant) {
+  if (draggedPlant && plantGrid[currentRow][currentCol] === 0) {
     if (draggedPlant && sunAmount >= plantCost) {
       plantList.push(new plants(currentCol, currentRow, draggedPlant, plantGrid));
-      if (plantGrid[currentCol][currentRow] === 0) {
-        sunAmount -= plantCost;
-      }
+      sunAmount -= plantCost;
     }
+  }
     draggedPlant = null;
     collision = false;
-  }
+  
 }
 
 
@@ -260,7 +259,7 @@ function drawBackground() {
 
 function sunDisplay() {
 
-  if (frameCount % 120 === 0) {
+  if (frameCount % 720 === 0) {
     sunList.push(new sun(0, random(100, width - 100)));
   }
 
