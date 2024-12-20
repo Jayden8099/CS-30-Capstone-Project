@@ -278,10 +278,10 @@ function sunDisplay() {
   fill(0);
   textSize(35);
   textAlign(CENTER);
-  text(sunAmount, 342, 160);
+  text(sunAmount, 342.5, 160);
   pop();
 
-  image(sunImage, 305, 25)
+  image(sunImage, 306, 25)
 }
 
 
