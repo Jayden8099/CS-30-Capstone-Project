@@ -74,6 +74,13 @@ let wallnutSeed;
 let potatoSeed;
 let repeaterSeed;
 
+//Zombies
+let zombieList = [];
+
+let zombieWalk;
+let zombieDeath;
+let zombieAttack;
+
 
 
 
@@ -106,6 +113,11 @@ function preload() {
 
   //sun
   sunImage = loadImage('assets/sun.gif')
+
+  //zombies
+  zombieWalk = loadImage('assets/zombiewalk.gif');
+  zombieAttack = loadImage('assets/zombieattack.gif');
+  zombieDeath = loadImage('assets/zombiewalk.gif');
 }
 
 
@@ -126,8 +138,6 @@ function setup() {
   seedList.push(new seedDisplay(832, 80, 165, 110, 3));
   seedList.push(new seedDisplay(1000, 79, 165, 115, 4));
   seedList.push(new seedDisplay(1170, 80, 165, 110, 5));
-
-
 }
 
 
@@ -137,6 +147,7 @@ function draw() {
   determineActiveSquare();
   drawBackground();
   sunDisplay();
+  zombieManager();
   //drawGrid();
 
 
@@ -158,12 +169,15 @@ function draw() {
       sunList.splice(i, 1);
       sunAmount += 50;
     }
-
-
   }
+    for (let i = 0; i < zombieList.length; i++) {
+      zombieList[i].display();
+      zombieList[i].update();
+  }
+  
 
 
-
+  
 
   //used for dragging from seedbar
   if (draggedPlant === 1) {
@@ -217,9 +231,9 @@ function mouseReleased() {
       sunAmount -= plantCost;
     }
   }
-    draggedPlant = null;
-    collision = false;
-  
+  draggedPlant = null;
+  collision = false;
+
 }
 
 
@@ -284,6 +298,12 @@ function sunDisplay() {
   image(sunImage, 306, 25)
 }
 
+
+function zombieManager() {
+  if (frameCount % 1320 === 0) {
+    zombieList.push(new Zombie(round(random(1,5)), width, plantGrid))
+  }
+}
 
 
 
