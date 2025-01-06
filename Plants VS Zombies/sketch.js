@@ -82,6 +82,9 @@ let zombieDeath;
 let zombieAttack;
 
 
+let isEating = false;
+
+
 
 
 function preload() {
@@ -300,7 +303,7 @@ function sunDisplay() {
 
 
 function zombieManager() {
-  if (frameCount % 1320 === 0) {
+  if (frameCount % 150 === 0) {
     zombieList.push(new Zombie(round(random(1,5)), width, plantGrid))
   }
 }
