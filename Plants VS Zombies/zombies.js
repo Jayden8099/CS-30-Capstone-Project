@@ -2,58 +2,53 @@
 //holds all zombies
 
 
-class Zombie {
-    constructor(row, x, plantGrid) {
-        this.y = row * rectHeight;
-        this.x = width;
 
-        this.plantGrid = plantGrid;
-        this.col = int(x / NUM_COLS);
-        this.row = row;
+
+// *ASK HOW TO MAKE PLANTS AND ZOMBIES INTERACT*
+
+class Zombie {
+    constructor(row, x, zState) {
+        this.y = round((row * rectHeight) - 100);
+        this.x = x;
+
+
+        this.row = int(row);
+        this.col = int(x / rectWidth);
+
+
+        this.zState = zState;
+
+
     }
+
 
     display() {
-        if (isEating === false) {
-            image(zombieWalk, this.x, this.y- 30, 200, 200);
+        push()
+        imageMode(CENTER);
+        if (this.zState === 0) {
+            image(zombieWalk, this.x, this.y, 200, 200);
         }
-        else if (isEating) {
-            image(zombieAttack, this.x, this.y- 30, 200, 200);
+        else {
+            image(zombieAttack, this.x, this.y, 200, 200);
         }
+        pop();
     }
-
-
 
     update() {
-        if (isEating === false) {
+        if (this.zState === 0) {
             this.x -= 0.4;
         }
+    }
 
-
-        for (let x = 0; x < NUM_COLS; x++) {
-            for (let y = 0; y < NUM_ROWS; y++) {
-                if (plantGrid[ythis.row][this.col] > 0) {
-                    isEating = true;
-                }
-                else if(plantGrid[this.row][this.col] === 0){
-                    isEating = false;
-                }
-            }
+    gridCheck(){ 
+        if(plantGrid[this.row][this.col] > 0){
+            this.zState = 1
+        }
+        else{
+            this.zState = 0;
         }
     }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+} 

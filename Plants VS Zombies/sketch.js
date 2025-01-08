@@ -16,12 +16,12 @@ let rectWidth, rectHeight;
 let currentRow, currentCol;
 
 let plantGrid =
-  [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+  [[7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 
 let draggedPlant = null;
@@ -37,7 +37,7 @@ let sN;
 
 
 
-let sunAmount = 50
+let sunAmount = 5000
 let sunList = [];
 let sunImage;
 
@@ -65,6 +65,14 @@ let wallnut;
 let potato;
 let repeater;
 
+//plant abilities
+
+let peaList = [];
+let peashot;
+
+
+
+
 //seedbar
 let seedList = [];
 
@@ -82,7 +90,10 @@ let zombieDeath;
 let zombieAttack;
 
 
-let isEating = false;
+
+
+
+
 
 
 
@@ -101,6 +112,9 @@ function preload() {
   wallnut = loadImage('assets/WallNut.gif');
   potato = loadImage('assets/Potato.gif');
   repeater = loadImage('assets/Repeater.gif');
+
+  //plant abilities
+  peashot = loadImage('assets/peashot.png');
 
 
 
@@ -135,6 +149,8 @@ function setup() {
   rectWidth = width / NUM_COLS;
   rectHeight = height / NUM_ROWS;
 
+
+
   //displays the seedBar
   seedList.push(new seedDisplay(500, 80, 160, 110, 1));
   seedList.push(new seedDisplay(665, 80, 165, 114, 2));
@@ -150,8 +166,8 @@ function draw() {
   determineActiveSquare();
   drawBackground();
   sunDisplay();
-  zombieManager();
-  //drawGrid();
+  zombieSpawner();
+  drawGrid();
 
 
 
@@ -161,6 +177,17 @@ function draw() {
   for (let i = 0; i < plantList.length; i++) {
     plantList[i].update();
     plantList[i].display();
+    plantList[i].abilities();
+
+    
+  }
+  for (let i = 0; i < peaList.length; i++) {
+    peaList[i].display();
+    peaList[i].update();
+
+    if (peaList[i].inBoundCheck()) {
+      peaList.splice(i, 1)
+    }
   }
   for (let i = 0; i < seedList.length; i++) {
     seedList[i].display();
@@ -170,17 +197,20 @@ function draw() {
     sunList[i].display();
     if (sunList[i].sunColCheck()) {
       sunList.splice(i, 1);
-      sunAmount += 50;
+      sunAmount += 25;
     }
   }
-    for (let i = 0; i < zombieList.length; i++) {
-      zombieList[i].display();
-      zombieList[i].update();
+  for (let i = 0; i < zombieList.length; i++) {
+    zombieList[i].display();
+    zombieList[i].update();
+
+
+
   }
-  
 
 
-  
+
+
 
   //used for dragging from seedbar
   if (draggedPlant === 1) {
@@ -302,11 +332,13 @@ function sunDisplay() {
 }
 
 
-function zombieManager() {
-  if (frameCount % 150 === 0) {
-    zombieList.push(new Zombie(round(random(1,5)), width, plantGrid))
+function zombieSpawner() {
+  if (frameCount % 720 === 0) {
+    zombieList.push(new Zombie(round(random(2, 6)), width, 0))
   }
 }
+
+
 
 
 

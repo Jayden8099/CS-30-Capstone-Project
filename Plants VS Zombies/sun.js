@@ -8,10 +8,13 @@ class sun {
         this.size = 50;
         this.ySpeed = 1.5;
 
+        
+
     }
+
     display() {
         push();
-        fill(0,0,0,0); noStroke();
+        fill(0, 0, 0, 0); noStroke();
         circle(this.x, this.y, this.size);
         pop();
 
@@ -21,17 +24,18 @@ class sun {
         pop();
 
 
-
         if (this.y < 750) {
             this.y += this.ySpeed;
         }
     }
+
+
     sunColCheck() {
         let d = dist(this.x, this.y, mouseX, mouseY);
         if (d <= this.size / 2) {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
