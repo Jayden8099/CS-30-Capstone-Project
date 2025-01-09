@@ -8,7 +8,7 @@
 
 class Zombie {
     constructor(row, x, zState) {
-        this.y = round((row * rectHeight) - 100);
+        this.y = round((row * rectHeight) + 50);
         this.x = x;
 
 
@@ -38,10 +38,12 @@ class Zombie {
         if (this.zState === 0) {
             this.x -= 0.4;
         }
+        this.row = int(this.row);
+        this.col = int(this.x / rectWidth);
     }
 
     gridCheck(){ 
-        if(plantGrid[this.row][this.col] > 0){
+        if(plantGrid[this.row][this.col] >= 1){
             this.zState = 1
         }
         else{

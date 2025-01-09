@@ -203,6 +203,7 @@ function draw() {
   for (let i = 0; i < zombieList.length; i++) {
     zombieList[i].display();
     zombieList[i].update();
+    zombieList[i].gridCheck();
 
 
 
@@ -333,8 +334,8 @@ function sunDisplay() {
 
 
 function zombieSpawner() {
-  if (frameCount % 720 === 0) {
-    zombieList.push(new Zombie(round(random(2, 6)), width, 0))
+  if (frameCount % 720  === 0) {
+    zombieList.push(new Zombie(int(random(5) + 1), width, 0))
   }
 }
 

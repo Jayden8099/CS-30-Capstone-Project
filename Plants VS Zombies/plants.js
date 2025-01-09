@@ -55,31 +55,25 @@ class plants {
   abilities(){
     //PLANT ABILITYS
     //peashot ability
-    for (let x = 0; x < NUM_COLS; x++) {
-      for (let y = 0; y < NUM_ROWS; y++) {
-
-
-
-        // *FIX TOO MANY ABILITIES SPAWNING*
 
         //normal peashooter
-        if (this.plantGrid[y][x] === 1 && frameCount % 120 === 0) {
-            peaList.push(new peaShot(x * rectWidth + rectWidth / 2, y * rectHeight + 30))
+        if (this.plantGrid[this.row][this.col] === 1 && frameCount % 120 === 0) {
+            peaList.push(new peaShot(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + 30))
           }
         
 
         //rapid peashooter
-        if (this.plantGrid[y][x] === 5 && frameCount % 120 === 0) {
-            peaList.push(new peaShot(x * rectWidth + rectWidth / 2, y * rectHeight + 30))
+        if (this.plantGrid[this.row][this.col] === 5 && frameCount % 60 === 0) {
+            peaList.push(new peaShot(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + 30))
         }
         //SUNFLOWER ABILITY
-        if (this.plantGrid[y][x] === 2 && frameCount % 900 === 0) {
-            sunList.push(new sun(y * rectHeight + -30, x * rectWidth + rectWidth / 2))
+        if (this.plantGrid[this.row][this.col] === 2 && frameCount % 900 === 0) {
+            sunList.push(new sun(this.col * rectHeight + -30, this.row * rectWidth + rectWidth / 2))
         }
 
 
       }
     }
-  }
-}
+  
+
 
