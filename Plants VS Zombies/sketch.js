@@ -173,7 +173,7 @@ function draw() {
 
 
 
-  //used for displaying class
+  //used for displaying classes
   for (let i = 0; i < plantList.length; i++) {
     plantList[i].update();
     plantList[i].display();
@@ -204,6 +204,12 @@ function draw() {
     zombieList[i].display();
     zombieList[i].update();
     zombieList[i].gridCheck();
+    zombieList[i].colCheck();
+    
+    if(zombieList[i].deathCheck()){
+      zombieList.splice(i,1);
+    }
+    
 
 
 
@@ -310,11 +316,6 @@ function sunDisplay() {
   if (frameCount % 720 === 0) {
     sunList.push(new sun(0, random(100, width - 100)));
   }
-
-
-
-
-
 
   //sun amount at the top
   push();

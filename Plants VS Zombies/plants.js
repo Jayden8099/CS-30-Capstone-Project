@@ -68,7 +68,7 @@ class plants {
         }
         //SUNFLOWER ABILITY
         if (this.plantGrid[this.row][this.col] === 2 && frameCount % 900 === 0) {
-            sunList.push(new sun(this.col * rectHeight + -30, this.row * rectWidth + rectWidth / 2))
+            sunList.push(new sun(this.row * rectHeight + 30, this.col * rectWidth + rectHeight / 2))
         }
 
 
