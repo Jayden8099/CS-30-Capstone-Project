@@ -6,15 +6,10 @@
 
 // *ASK HOW TO MAKE PLANTS AND ZOMBIES INTERACT*
 
-class Zombie {
+class Zombie{
     constructor(row, x, zState) {
-        this.y = round((row * rectHeight) + 50);
-        this.x = x;
-
-
-        this.peaX;
-        this.peaY;
-
+        this.zombieY = round((row * rectHeight) + 50);
+        this.zombieX = x;
 
         this.row = int(row);
         this.col = int(x / rectWidth);
@@ -22,7 +17,7 @@ class Zombie {
 
         this.zState = zState;
 
-        this.zHealth = 3;
+        this.zHealth = 15;
 
     }
 
@@ -31,47 +26,34 @@ class Zombie {
         push()
         imageMode(CENTER);
         if (this.zState === 0) {
-            image(zombieWalk, this.x, this.y, 200, 200);
+            image(zombieWalk, this.zombieX, this.zombieY, 200, 200);
             fill(0,0,0,0);
             rectMode(CENTER);
-            rect(this.x, this.y,this.w,this.h);
+            
         }
         else {
-            image(zombieAttack, this.x, this.y, 200, 200);
+            image(zombieAttack, this.zombieX, this.zombieY, 200, 200);
         }
         pop();
+
+        
     }
 
     update() {
         if (this.zState === 0) {
-            this.x -= 0.4;
+            this.zombieX -= 0.4;
         }
         this.row = int(this.row);
-        this.col = int(this.x / rectWidth);
+        this.col = int(this.zombieX / rectWidth);
 
     }
 
     gridCheck() {
-        if (plantGrid[this.row][this.col] >= 1) {
+        if (plantGrid[this.row][this.col] >= 1 && plantGrid[this.row][this.col] !== 7) {
             this.zState = 1
         }
         else {
             this.zState = 0;
         }
     }
-
-
-    colCheck() {
-        if (this.peaX > this.left) {
-            if (this.peaY > this.top && this.peaY < this.bottom) {
-                
-            }
-        }
-    }
-    deathCheck() {
-        if (this.zState === 3) {
-            return true;
-        }
-    }
-
 }

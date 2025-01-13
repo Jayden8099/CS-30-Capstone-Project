@@ -17,11 +17,11 @@ let currentRow, currentCol;
 
 let plantGrid =
   [[7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
-  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7],
+  [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7]];
 
 
 let draggedPlant = null;
@@ -149,6 +149,7 @@ function setup() {
   rectWidth = width / NUM_COLS;
   rectHeight = height / NUM_ROWS;
 
+  zombieList.push(new Zombie(int(random(5) + 1), width, 0))
 
 
   //displays the seedBar
@@ -167,7 +168,7 @@ function draw() {
   drawBackground();
   sunDisplay();
   zombieSpawner();
-  drawGrid();
+  //drawGrid();
 
 
 
@@ -179,15 +180,21 @@ function draw() {
     plantList[i].display();
     plantList[i].abilities();
 
-    
+
   }
   for (let i = 0; i < peaList.length; i++) {
+    if (peaList[i].colCheck()) {
+      peaList.splice(i, 1);
+    }
     peaList[i].display();
     peaList[i].update();
+    peaList[i].colCheck();
 
     if (peaList[i].inBoundCheck()) {
       peaList.splice(i, 1)
     }
+
+
   }
   for (let i = 0; i < seedList.length; i++) {
     seedList[i].display();
@@ -204,15 +211,10 @@ function draw() {
     zombieList[i].display();
     zombieList[i].update();
     zombieList[i].gridCheck();
-    zombieList[i].colCheck();
-    
-    if(zombieList[i].deathCheck()){
-      zombieList.splice(i,1);
+
+    if (zombieList[i].zHealth <= 0) {
+      zombieList.splice(i, 1);
     }
-    
-
-
-
   }
 
 
@@ -311,6 +313,7 @@ function drawBackground() {
 }
 
 
+
 function sunDisplay() {
 
   if (frameCount % 720 === 0) {
@@ -335,7 +338,7 @@ function sunDisplay() {
 
 
 function zombieSpawner() {
-  if (frameCount % 720  === 0) {
+  if (frameCount % 520 === 0) {
     zombieList.push(new Zombie(int(random(5) + 1), width, 0))
   }
 }

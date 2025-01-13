@@ -58,13 +58,13 @@ class plants {
 
         //normal peashooter
         if (this.plantGrid[this.row][this.col] === 1 && frameCount % 120 === 0) {
-            peaList.push(new peaShot(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + 30))
+            peaList.push(new peaShot(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + 30, this.row))
           }
         
 
         //rapid peashooter
         if (this.plantGrid[this.row][this.col] === 5 && frameCount % 60 === 0) {
-            peaList.push(new peaShot(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + 30))
+            peaList.push(new peaShot(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + 30, this.row))
         }
         //SUNFLOWER ABILITY
         if (this.plantGrid[this.row][this.col] === 2 && frameCount % 900 === 0) {
