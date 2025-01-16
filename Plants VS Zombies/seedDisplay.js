@@ -75,13 +75,13 @@ class seedDisplay {
       else if(this.type === 5){
         rect(this.x, this.y, this.w, this.h);
         image(repeaterSeed , this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-        if(sunAmount < 200){
+        if(sunAmount < 175){
           fill(255,0,0);
-          text('200',1215,121)
+          text('175',1215,121)
         }
         else{
           fill(0);
-          text('200',1215,121)
+          text('175',1215,121)
         }
       }
       pop();

@@ -3,10 +3,7 @@
 
 
 
-
-// *ASK HOW TO MAKE PLANTS AND ZOMBIES INTERACT*
-
-class Zombie{
+class Zombie {
     constructor(row, x, zState) {
         this.zombieY = round((row * rectHeight) + 50);
         this.zombieX = x;
@@ -27,17 +24,14 @@ class Zombie{
         imageMode(CENTER);
         if (this.zState === 0) {
             image(zombieWalk, this.zombieX, this.zombieY, 200, 200);
-            fill(0,0,0,0);
-            rectMode(CENTER);
-            
         }
         else {
             image(zombieAttack, this.zombieX, this.zombieY, 200, 200);
+            fill(255,0,0);
         }
         pop();
-
-        
     }
+
 
     update() {
         if (this.zState === 0) {
@@ -51,6 +45,11 @@ class Zombie{
     gridCheck() {
         if (plantGrid[this.row][this.col] >= 1 && plantGrid[this.row][this.col] !== 7) {
             this.zState = 1
+            for (let i = 0; i < plantList.length; i++) {
+                if(this.row === plantList[i].row && this.col === plantList[i].col){
+                plantList[i].beingAte = true;
+                }
+            }
         }
         else {
             this.zState = 0;

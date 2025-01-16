@@ -10,9 +10,9 @@ class peaShot {
 
         this.peaRow = row;
 
-        this.peaVelocity = 5;
+        this.peaVelocity = 4;
 
-        this.dead = false;
+        
     }
 
     display() {
@@ -39,7 +39,7 @@ class peaShot {
         for(let i = 0; i < zombieList.length; i++){
             let z = zombieList[i];
             if(dist(z.zombieX, z.zombieY, this.peaX, this.peaY) < 30){
-                z.zHealth -= 1;
+                z.zHealth --;
                 return true;
             }
         }

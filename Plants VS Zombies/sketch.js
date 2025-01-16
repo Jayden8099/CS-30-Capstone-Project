@@ -24,20 +24,16 @@ let plantGrid =
   [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7]];
 
 
+
+
+
 let draggedPlant = null;
-
-
-
-
-
-
 let seedW, seedH;
 let collision = false;
 let sN;
 
 
-
-let sunAmount = 5000
+let sunAmount = 50
 let sunList = [];
 let sunImage;
 
@@ -179,19 +175,23 @@ function draw() {
     plantList[i].update();
     plantList[i].display();
     plantList[i].abilities();
+    plantList[i].death();
 
 
   }
   for (let i = 0; i < peaList.length; i++) {
-    if (peaList[i].colCheck()) {
-      peaList.splice(i, 1);
-    }
     peaList[i].display();
     peaList[i].update();
     peaList[i].colCheck();
 
+
+
+
     if (peaList[i].inBoundCheck()) {
       peaList.splice(i, 1)
+    }
+    else if(peaList[i].colCheck()) {
+      peaList.splice(i, 1);
     }
 
 
@@ -203,8 +203,9 @@ function draw() {
   for (let i = 0; i < sunList.length; i++) {
     sunList[i].display();
     if (sunList[i].sunColCheck()) {
-      sunList.splice(i, 1);
       sunAmount += 25;
+      sunList.splice(i, 1);
+      
     }
   }
   for (let i = 0; i < zombieList.length; i++) {
@@ -247,7 +248,7 @@ function draw() {
     }
   }
   else if (draggedPlant === 5) {
-    plantCost = 200;
+    plantCost = 175;
     if (sunAmount >= plantCost) {
       image(repeater, mouseX - 50, mouseY - 50, 100, 100);
     }
@@ -303,8 +304,7 @@ function drawGrid() {
 }
 
 
-//draws the house background
-//UPDATE LATER FOR MAIN MENU
+//draws the house backgroun
 function drawBackground() {
   image(house, -115, 0);
   image(fence, 190, 0, 1537, 170);
@@ -338,7 +338,7 @@ function sunDisplay() {
 
 
 function zombieSpawner() {
-  if (frameCount % 520 === 0) {
+  if (frameCount % 720 === 0) {
     zombieList.push(new Zombie(int(random(5) + 1), width, 0))
   }
 }

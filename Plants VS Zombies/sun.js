@@ -7,9 +7,6 @@ class sun {
         this.y = y;
         this.size = 50;
         this.ySpeed = 1.5;
-
-        
-
     }
 
     display() {
