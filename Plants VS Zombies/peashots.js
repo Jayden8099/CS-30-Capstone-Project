@@ -7,9 +7,7 @@ class peaShot {
         this.peaX = x;
         this.peaY = y + 25;
 
-
         this.peaRow = row;
-
         this.peaVelocity = 4;
 
         
@@ -24,11 +22,8 @@ class peaShot {
 
     update() {
         this.peaX += this.peaVelocity;
-
-
-        
     }
-
+    
     inBoundCheck() {
         if (this.peaX > width) {
             return true;

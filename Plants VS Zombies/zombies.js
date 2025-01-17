@@ -44,6 +44,10 @@ class Zombie {
 
     gridCheck() {
         if (plantGrid[this.row][this.col] >= 1 && plantGrid[this.row][this.col] !== 7) {
+            if(plantGrid[this.row][this.col] === 8){
+                lossCheck = true;
+            }
+
             this.zState = 1
             for (let i = 0; i < plantList.length; i++) {
                 if(this.row === plantList[i].row && this.col === plantList[i].col){
