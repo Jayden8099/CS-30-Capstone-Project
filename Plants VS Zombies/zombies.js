@@ -27,7 +27,7 @@ class Zombie {
         }
         else {
             image(zombieAttack, this.zombieX, this.zombieY, 200, 200);
-            fill(255,0,0);
+            fill(255, 0, 0);
         }
         pop();
     }
@@ -44,19 +44,32 @@ class Zombie {
 
     gridCheck() {
         if (plantGrid[this.row][this.col] >= 1 && plantGrid[this.row][this.col] !== 7) {
-            if(plantGrid[this.row][this.col] === 8){
+            if (plantGrid[this.row][this.col] === 8) {
                 lossCheck = true;
             }
-
             this.zState = 1
             for (let i = 0; i < plantList.length; i++) {
-                if(this.row === plantList[i].row && this.col === plantList[i].col){
-                plantList[i].beingAte = true;
+                if (this.row === plantList[i].row && this.col === plantList[i].col) {
+                    plantList[i].beingAte = true;
                 }
             }
         }
+
         else {
             this.zState = 0;
         }
+
+        //used for potato mine
+        if (plantGrid[this.row][this.col] === 4) {
+            this.zHealth -= 15;
+            for (let i = 0; i < plantList.length; i++) {
+                if (this.row === plantList[i].row && this.col === plantList[i].col) {
+                    plantList[i].beingAte = true;
+                }
+  
+            }
+        }
     }
 }
+
+

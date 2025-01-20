@@ -156,8 +156,7 @@ function setup() {
   rectHeight = height / NUM_ROWS;
 
 
-  //Creates a starter zombie
-  zombieList.push(new Zombie(int(random(5) + 1), width, 0))
+
 
 
   //displays the seedBar
@@ -187,10 +186,7 @@ function draw() {
   //checks if you have lost the game before running
   if (lossCheck === false) {
     for (let i = 0; i < plantList.length; i++) {
-      plantList[i].update();
-      plantList[i].display();
-      plantList[i].abilities();
-      plantList[i].death();
+      plantList[i].actions();
     }
     for (let i = 0; i < peaList.length; i++) {
       peaList[i].display();
@@ -205,7 +201,6 @@ function draw() {
       else if (peaList[i].colCheck()) {
         peaList.splice(i, 1);
       }
-
 
     }
     for (let i = 0; i < seedList.length; i++) {
@@ -228,52 +223,54 @@ function draw() {
       zombieList[i].update();
       zombieList[i].gridCheck();
 
-      //checks if a zombie still has health and removes it if dead
-      if (zombieList[i].zHealth <= 0) {
-        zombieList.splice(i, 1);
-        score++;
+
+        //checks if a zombie still has health and removes it if dead
+        if (zombieList[i].zHealth <= 0) {
+          zombieList.splice(i, 1);
+          score++;
+        }
+      }
+    }
+
+
+
+
+
+    //used for dragging from seedbar
+    //checks if you have the money to buy a plant
+    //displays dragged plant at mouse pos
+    if (draggedPlant === 1) {
+      plantCost = 100;
+      if (sunAmount >= plantCost) {
+        image(peashooter, mouseX - 25, mouseY - 50, 75, 75);
+      }
+    }
+    else if (draggedPlant === 2) {
+      plantCost = 50;
+      if (sunAmount >= plantCost) {
+        image(sunflower, mouseX - 25, mouseY - 50, 75, 75);
+      }
+    }
+    else if (draggedPlant === 3) {
+      plantCost = 75;
+      if (sunAmount >= plantCost) {
+        image(wallnut, mouseX - 25, mouseY - 50, 75, 75);
+      }
+    }
+    else if (draggedPlant === 4) {
+      plantCost = 50;
+      if (sunAmount >= plantCost) {
+        image(potato, mouseX - 25, mouseY - 50, 75, 75);
+      }
+    }
+    else if (draggedPlant === 5) {
+      plantCost = 175;
+      if (sunAmount >= plantCost) {
+        image(repeater, mouseX - 50, mouseY - 50, 100, 100);
       }
     }
   }
 
-
-
-
-
-  //used for dragging from seedbar
-  //checks if you have the money to buy a plant
-  //displays dragged plant at mouse pos
-  if (draggedPlant === 1) {
-    plantCost = 100;
-    if (sunAmount >= plantCost) {
-      image(peashooter, mouseX - 25, mouseY - 50, 75, 75);
-    }
-  }
-  else if (draggedPlant === 2) {
-    plantCost = 50;
-    if (sunAmount >= plantCost) {
-      image(sunflower, mouseX - 25, mouseY - 50, 75, 75);
-    }
-  }
-  else if (draggedPlant === 3) {
-    plantCost = 75;
-    if (sunAmount >= plantCost) {
-      image(wallnut, mouseX - 25, mouseY - 50, 75, 75);
-    }
-  }
-  else if (draggedPlant === 4) {
-    plantCost = 50;
-    if (sunAmount >= plantCost) {
-      image(potato, mouseX - 25, mouseY - 50, 75, 75);
-    }
-  }
-  else if (draggedPlant === 5) {
-    plantCost = 175;
-    if (sunAmount >= plantCost) {
-      image(repeater, mouseX - 50, mouseY - 50, 100, 100);
-    }
-  }
-}
 
 
 //determines what plant is being dragged
@@ -379,7 +376,7 @@ function sunDisplay() {
 function zombieSpawner() {
   //every 720 frames(12 seconds) a zombie spawns in a random row
   if (score < 15) {
-    if (frameCount % 720 === 0 && lossCheck === false) {
+    if (frameCount % 840 === 0 && lossCheck === false) {
       zombieList.push(new Zombie(int(random(5) + 1), width, 0))
     }
   }
@@ -422,6 +419,7 @@ function reset() {
     peaList = [];
     sunList = [];
     score = 0;
+    sunAmount = 50;
 
     //every 60 frames (1 sec) the timer -1 until it hits 0
     //then the game restarts

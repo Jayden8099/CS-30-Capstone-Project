@@ -13,6 +13,9 @@ class plants {
 
     this.beingAte = false;
 
+
+
+
     if (type !== 3) {
       this.health = 360;
     }
@@ -94,6 +97,9 @@ class plants {
 
   death(){
     if(this.beingAte === true){
+      if(this.type === 4){
+        this.health -= 360;
+      }
       this.health--;
       this.beingAte = false; 
     }
@@ -105,6 +111,14 @@ class plants {
         plantList.splice(i, 1);
       }
     }
+  }
+
+  //cleans up draw loops slightly
+  actions(){
+    this.update();
+    this.display();
+    this.abilities();
+    this.death();
   }
 
 }
