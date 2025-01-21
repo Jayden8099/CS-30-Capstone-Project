@@ -414,22 +414,19 @@ function sunDisplay() {
 
 
 function zombieSpawner() {
-  //every 720 frames(12 seconds) a zombie spawns in a random row
-  if (score < 10) {
-    if (frameCount % 840 === 0 && lossCheck === false) {
+  //a zombie spawns in a random row
+  if (score < 15) {
+    if (frameCount % 720 === 0 && lossCheck === false) {
       zombieList.push(new Zombie(int(random(5) + 1), width, 0))
     }
   }
-  if (score < 25 && score >= 10) {
-    if (frameCount % 540 === 0 && lossCheck === false) {
-      zombieList.push(new Zombie(int(random(5) + 1), width, 0))
-    }
-  }else{
-    if (frameCount % 240 === 0 && lossCheck === false) {
+  if (score >= 15) {
+    if (frameCount % 480 === 0 && lossCheck === false) {
       zombieList.push(new Zombie(int(random(5) + 1), width, 0))
     }
   }
 }
+
 
 
 
@@ -468,11 +465,12 @@ function reset() {
 
     //every 60 frames (1 sec) the timer -1 until it hits 0
     //then the game restarts
+    
     if (frameCount % 60 === 0) {
       restartTimer--;
       if (restartTimer === 0) {
         lossCheck = false;
-        restartTimer = 5;
+        restartTimer = 10;
       }
     }
   }
