@@ -63,13 +63,13 @@ class seedDisplay {
       else if(this.type === 4){
         rect(this.x, this.y, this.w, this.h);
         image(potatoSeed, this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-        if(sunAmount < 50){
+        if(sunAmount < 100){
           fill(255,0,0);
-          text('50',1055,121)
+          text('100',1055,121)
         }
         else{
           fill(0);
-          text('50',1055,121)
+          text('100',1055,121)
         }
       }
       else if(this.type === 5){

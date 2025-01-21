@@ -62,6 +62,8 @@ class Zombie {
         //used for potato mine
         if (plantGrid[this.row][this.col] === 4) {
             this.zHealth -= 15;
+            potatoMineExplosion.setVolume(0.5);
+            potatoMineExplosion.play();
             for (let i = 0; i < plantList.length; i++) {
                 if (this.row === plantList[i].row && this.col === plantList[i].col) {
                     plantList[i].beingAte = true;

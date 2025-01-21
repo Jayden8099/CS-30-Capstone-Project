@@ -95,13 +95,13 @@ class plants {
 
   }
 
-  death(){
-    if(this.beingAte === true){
-      if(this.type === 4){
+  death() {
+    if (this.beingAte === true) {
+      if (this.type === 4) {
         this.health -= 360;
       }
       this.health--;
-      this.beingAte = false; 
+      this.beingAte = false;
     }
 
     //removes the plant from the plantGrid and plantList
@@ -114,7 +114,7 @@ class plants {
   }
 
   //cleans up draw loops slightly
-  actions(){
+  actions() {
     this.update();
     this.display();
     this.abilities();

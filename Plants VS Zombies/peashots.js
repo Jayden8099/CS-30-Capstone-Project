@@ -35,6 +35,8 @@ class peaShot {
             let z = zombieList[i];
             if(dist(z.zombieX, z.zombieY, this.peaX, this.peaY) < 30){
                 z.zHealth --;
+                peashooterHitSound.setVolume(0.1);
+                peashooterHitSound.play();
                 return true;
             }
         }

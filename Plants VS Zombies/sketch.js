@@ -32,7 +32,7 @@ let sN;
 
 
 //curency system
-let sunAmount = 5000
+let sunAmount = 50
 let sunList = [];
 let sunImage;
 let plantCost;
@@ -51,6 +51,14 @@ let lawn;
 let sidewalk;
 
 
+//sound
+let musicStarted = false;
+
+let backgroundMusic;
+let peashooterHitSound;
+
+let potatoMineExplosion;
+
 
 //plants
 let plantList = [];
@@ -65,6 +73,8 @@ let repeater;
 
 let peaList = [];
 let peashot;
+
+let potatoExplode;
 
 
 
@@ -101,6 +111,14 @@ let restartTimer = 10;
 
 
 function preload() {
+  //sounds
+
+  backgroundMusic = loadSound('assets/Plants_vs._Zombies_Main_Theme.mp3');
+  peashooterHitSound = loadSound('assets/peashooterhitsound.mp3');
+  potatoMineExplosion = loadSound('assets/potatomineexplosion.mp3');
+
+
+
   //background
   fence = loadImage('assets/fence.jpg');
   house = loadImage('assets/House.png');
@@ -117,6 +135,8 @@ function preload() {
 
   //plant abilities
   peashot = loadImage('assets/peashot.png');
+  potatoExplode = loadImage('assets/potatoexplode.png');
+
 
 
 
@@ -141,6 +161,8 @@ function preload() {
 
   //deathscreen
   deathScreen = loadImage('assets/deathscreen.png');
+
+
 }
 
 
@@ -150,6 +172,8 @@ function preload() {
 
 function setup() {
   createCanvas(1900, 950);
+
+
 
 
   rectWidth = width / NUM_COLS;
@@ -165,6 +189,9 @@ function setup() {
   seedList.push(new seedDisplay(832, 80, 165, 110, 3));
   seedList.push(new seedDisplay(1000, 79, 165, 115, 4));
   seedList.push(new seedDisplay(1170, 80, 165, 110, 5));
+
+
+
 }
 
 
@@ -177,6 +204,19 @@ function draw() {
   zombieSpawner();
   reset();
   //drawGrid();
+
+
+  //starts music after first user input
+  if (musicStarted === false) {
+    if (mouseIsPressed) {
+      backgroundMusic.loop();
+      backgroundMusic.setVolume(0.1);
+      musicStarted = true;
+    }
+  }
+
+
+
 
 
 
@@ -224,52 +264,52 @@ function draw() {
       zombieList[i].gridCheck();
 
 
-        //checks if a zombie still has health and removes it if dead
-        if (zombieList[i].zHealth <= 0) {
-          zombieList.splice(i, 1);
-          score++;
-        }
-      }
-    }
-
-
-
-
-
-    //used for dragging from seedbar
-    //checks if you have the money to buy a plant
-    //displays dragged plant at mouse pos
-    if (draggedPlant === 1) {
-      plantCost = 100;
-      if (sunAmount >= plantCost) {
-        image(peashooter, mouseX - 25, mouseY - 50, 75, 75);
-      }
-    }
-    else if (draggedPlant === 2) {
-      plantCost = 50;
-      if (sunAmount >= plantCost) {
-        image(sunflower, mouseX - 25, mouseY - 50, 75, 75);
-      }
-    }
-    else if (draggedPlant === 3) {
-      plantCost = 75;
-      if (sunAmount >= plantCost) {
-        image(wallnut, mouseX - 25, mouseY - 50, 75, 75);
-      }
-    }
-    else if (draggedPlant === 4) {
-      plantCost = 50;
-      if (sunAmount >= plantCost) {
-        image(potato, mouseX - 25, mouseY - 50, 75, 75);
-      }
-    }
-    else if (draggedPlant === 5) {
-      plantCost = 175;
-      if (sunAmount >= plantCost) {
-        image(repeater, mouseX - 50, mouseY - 50, 100, 100);
+      //checks if a zombie still has health and removes it if dead
+      if (zombieList[i].zHealth <= 0) {
+        zombieList.splice(i, 1);
+        score++;
       }
     }
   }
+
+
+
+
+
+  //used for dragging from seedbar
+  //checks if you have the money to buy a plant
+  //displays dragged plant at mouse pos
+  if (draggedPlant === 1) {
+    plantCost = 100;
+    if (sunAmount >= plantCost) {
+      image(peashooter, mouseX - 25, mouseY - 50, 75, 75);
+    }
+  }
+  else if (draggedPlant === 2) {
+    plantCost = 50;
+    if (sunAmount >= plantCost) {
+      image(sunflower, mouseX - 25, mouseY - 50, 75, 75);
+    }
+  }
+  else if (draggedPlant === 3) {
+    plantCost = 75;
+    if (sunAmount >= plantCost) {
+      image(wallnut, mouseX - 25, mouseY - 50, 75, 75);
+    }
+  }
+  else if (draggedPlant === 4) {
+    plantCost = 100;
+    if (sunAmount >= plantCost) {
+      image(potato, mouseX - 25, mouseY - 50, 75, 75);
+    }
+  }
+  else if (draggedPlant === 5) {
+    plantCost = 175;
+    if (sunAmount >= plantCost) {
+      image(repeater, mouseX - 50, mouseY - 50, 100, 100);
+    }
+  }
+}
 
 
 
@@ -375,17 +415,22 @@ function sunDisplay() {
 
 function zombieSpawner() {
   //every 720 frames(12 seconds) a zombie spawns in a random row
-  if (score < 15) {
+  if (score < 10) {
     if (frameCount % 840 === 0 && lossCheck === false) {
       zombieList.push(new Zombie(int(random(5) + 1), width, 0))
     }
   }
-  if (score < 40 && score > 15) {
+  if (score < 25 && score >= 10) {
     if (frameCount % 540 === 0 && lossCheck === false) {
+      zombieList.push(new Zombie(int(random(5) + 1), width, 0))
+    }
+  }else{
+    if (frameCount % 240 === 0 && lossCheck === false) {
       zombieList.push(new Zombie(int(random(5) + 1), width, 0))
     }
   }
 }
+
 
 
 
@@ -433,6 +478,8 @@ function reset() {
   }
 
 }
+
+
 
 
 
