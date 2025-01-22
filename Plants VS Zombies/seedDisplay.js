@@ -24,6 +24,9 @@ class seedDisplay {
       textAlign(CENTER);
       textSize(25);
 
+
+
+      
       if (this.type === 1) {
         rect(this.x, this.y, this.w, this.h);
         image(peashooterSeed, this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);

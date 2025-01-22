@@ -56,7 +56,6 @@ let musicStarted = false;
 
 let backgroundMusic;
 let peashooterHitSound;
-
 let potatoMineExplosion;
 
 
@@ -88,12 +87,16 @@ let wallnutSeed;
 let potatoSeed;
 let repeaterSeed;
 
+
+
+
 //Zombies
 let zombieList = [];
 
 let zombieWalk;
 let zombieDeath;
 let zombieAttack;
+let zombieTimer = 720;
 
 
 let score = 0;
@@ -101,6 +104,8 @@ let score = 0;
 let lossCheck = false;
 let deathScreen;
 let restartTimer = 10;
+
+
 
 
 
@@ -148,6 +153,9 @@ function preload() {
   potatoSeed = loadImage('assets/PotatoMineSeed.png');
   repeaterSeed = loadImage('assets/RepeaterSeedPacket.png')
 
+ 
+
+
 
 
   //sun
@@ -189,6 +197,7 @@ function setup() {
   seedList.push(new seedDisplay(832, 80, 165, 110, 3));
   seedList.push(new seedDisplay(1000, 79, 165, 115, 4));
   seedList.push(new seedDisplay(1170, 80, 165, 110, 5));
+
 
 
 
@@ -279,6 +288,7 @@ function draw() {
   //used for dragging from seedbar
   //checks if you have the money to buy a plant
   //displays dragged plant at mouse pos
+
   if (draggedPlant === 1) {
     plantCost = 100;
     if (sunAmount >= plantCost) {
@@ -321,8 +331,6 @@ function mouseDragged() {
     draggedPlant = sN;
     collision = false;
   }
-
-
 }
 
 //if the mouse is over a valid position drops the selected plant at that location
@@ -334,6 +342,7 @@ function mouseReleased() {
       sunAmount -= plantCost;
     }
   }
+
   //resets the dragged plant and collision
   draggedPlant = null;
   collision = false;
@@ -378,7 +387,8 @@ function drawBackground() {
   push();
   textSize(64);
   fill(0);
-  text('Score: ' + score, width - 600, 100)
+
+  text('Score: ' + score, width - 400, 100)
 
 
 
@@ -415,17 +425,11 @@ function sunDisplay() {
 
 function zombieSpawner() {
   //a zombie spawns in a random row
-  if (score < 15) {
-    if (frameCount % 720 === 0 && lossCheck === false) {
-      zombieList.push(new Zombie(int(random(5) + 1), width, 0))
-    }
-  }
-  if (score >= 15) {
-    if (frameCount % 480 === 0 && lossCheck === false) {
-      zombieList.push(new Zombie(int(random(5) + 1), width, 0))
-    }
+  if (frameCount % zombieTimer === 0 && lossCheck === false) {
+    zombieList.push(new Zombie(int(random(5) + 1), width, 0))
   }
 }
+
 
 
 
@@ -465,7 +469,7 @@ function reset() {
 
     //every 60 frames (1 sec) the timer -1 until it hits 0
     //then the game restarts
-    
+
     if (frameCount % 60 === 0) {
       restartTimer--;
       if (restartTimer === 0) {

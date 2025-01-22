@@ -11,10 +11,23 @@ class Zombie {
         this.row = int(row);
         this.col = int(x / rectWidth);
 
+        if (score < 20) {
+            zombieTimer = 720;
+            this.xSpeed = 0.4;
+        }
+        if (score >= 20) {
+            zombieTimer = 480
+            this.xSpeed = 0.8;
+        }
+        if (score >= 35) {
+            zombieTimer = 120;
+            this.xSpeed = 1.2;
+        }
+
 
         this.zState = zState;
 
-        this.zHealth = 15;
+        this.zHealth = 20;
 
     }
 
@@ -35,7 +48,7 @@ class Zombie {
 
     update() {
         if (this.zState === 0) {
-            this.zombieX -= 0.4;
+            this.zombieX -= this.xSpeed;
         }
         this.row = int(this.row);
         this.col = int(this.zombieX / rectWidth);
@@ -68,7 +81,7 @@ class Zombie {
                 if (this.row === plantList[i].row && this.col === plantList[i].col) {
                     plantList[i].beingAte = true;
                 }
-  
+
             }
         }
     }
