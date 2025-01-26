@@ -11,28 +11,39 @@ class Zombie {
         this.row = int(row);
         this.col = int(x / rectWidth);
 
-        if (score < 20) {
+        //checks what the score is and changes the difficulty
+        //makes the game eventually end instead of not being able to lose
+        if (score < 10) {
             zombieTimer = 720;
+            this.zHealth = 15;
             this.xSpeed = 0.4;
         }
-        if (score >= 20) {
-            zombieTimer = 480
+        if (score >= 10 && score < 20) {
+            zombieTimer = 360;
+            this.zHealth = 16;
             this.xSpeed = 0.8;
         }
-        if (score >= 35) {
-            zombieTimer = 120;
+        if (score >= 20 && score < 30) {
+            zombieTimer = 180;
+            this.zHealth = 20;
+            this.xSpeed = 0.9;
+        }
+        if (score >= 30) {
+            zombieTimer = 90;
+            this.zHealth = 20;
             this.xSpeed = 1.2;
         }
 
 
         this.zState = zState;
 
-        this.zHealth = 20;
+
 
     }
 
 
     display() {
+        //displays zombie walking or eating based on zState
         push()
         imageMode(CENTER);
         if (this.zState === 0) {
@@ -47,6 +58,7 @@ class Zombie {
 
 
     update() {
+        //updates zombies pos
         if (this.zState === 0) {
             this.zombieX -= this.xSpeed;
         }
@@ -56,6 +68,8 @@ class Zombie {
     }
 
     gridCheck() {
+        //checks if a zombie is at the house causing you to lose
+        //or if a zombie is touching a plant
         if (plantGrid[this.row][this.col] >= 1 && plantGrid[this.row][this.col] !== 7) {
             if (plantGrid[this.row][this.col] === 8) {
                 lossCheck = true;
@@ -68,13 +82,14 @@ class Zombie {
             }
         }
 
-        else {
+        else {//resets zombie to walking
             this.zState = 0;
         }
 
         //used for potato mine
+        //insta kills any zombies and kills mine aswell
         if (plantGrid[this.row][this.col] === 4) {
-            this.zHealth -= 15;
+            this.zHealth -= 50;
             potatoMineExplosion.setVolume(0.5);
             potatoMineExplosion.play();
             for (let i = 0; i < plantList.length; i++) {

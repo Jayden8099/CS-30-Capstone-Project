@@ -21,16 +21,19 @@ class peaShot {
     }
 
     update() {
+        //movement speed
         this.peaX += this.peaVelocity;
     }
     
     inBoundCheck() {
+        //removes pea if its out of bounds
         if (this.peaX > width) {
             return true;
         }
     }
 
     colCheck(){
+        //checks if pea is colliding with zombies
         for(let i = 0; i < zombieList.length; i++){
             let z = zombieList[i];
             if(dist(z.zombieX, z.zombieY, this.peaX, this.peaY) < 30){

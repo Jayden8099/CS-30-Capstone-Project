@@ -20,7 +20,7 @@ class sun {
         image(sunImage, this.x, this.y)
         pop();
 
-
+        //makes suns fall from the sky until y = 750
         if (this.y < 750) {
             this.y += this.ySpeed;
         }
@@ -28,6 +28,8 @@ class sun {
 
 
     sunColCheck() {
+        //checks if mouse pos is touching the sun
+        //and collects it if true
         let d = dist(this.x, this.y, mouseX, mouseY);
         if (d <= this.size / 2) {
             return true;

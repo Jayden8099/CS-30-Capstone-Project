@@ -8,6 +8,7 @@
 const NUM_ROWS = 6; //y
 const NUM_COLS = 11;  //x
 
+//for making grid
 let rectWidth, rectHeight;
 let currentRow, currentCol;
 
@@ -28,11 +29,11 @@ let plantGrid =
 let draggedPlant = null; // 1 = peashooter, 2 = Sunflower, 3 = Wallnut, 4 = Potato Mine, 5 = Repeater
 let seedW, seedH;
 let collision = false;
-let sN;
+let sN; //seed num
 
 
 //curency system
-let sunAmount = 50
+let sunAmount = 50 //starter
 let sunList = [];
 let sunImage;
 let plantCost;
@@ -153,7 +154,7 @@ function preload() {
   potatoSeed = loadImage('assets/PotatoMineSeed.png');
   repeaterSeed = loadImage('assets/RepeaterSeedPacket.png')
 
- 
+
 
 
 
@@ -195,7 +196,7 @@ function setup() {
   seedList.push(new seedDisplay(500, 80, 160, 110, 1));
   seedList.push(new seedDisplay(665, 80, 165, 114, 2));
   seedList.push(new seedDisplay(832, 80, 165, 110, 3));
-  seedList.push(new seedDisplay(1000, 79, 165, 115, 4));
+  seedList.push(new seedDisplay(1000, 78, 165, 115, 4));
   seedList.push(new seedDisplay(1170, 80, 165, 110, 5));
 
 
@@ -212,7 +213,7 @@ function draw() {
   sunDisplay();
   zombieSpawner();
   reset();
-  //drawGrid();
+  
 
 
   //starts music after first user input
@@ -288,7 +289,7 @@ function draw() {
   //used for dragging from seedbar
   //checks if you have the money to buy a plant
   //displays dragged plant at mouse pos
-
+ 
   if (draggedPlant === 1) {
     plantCost = 100;
     if (sunAmount >= plantCost) {
@@ -387,7 +388,7 @@ function drawBackground() {
   push();
   textSize(64);
   fill(0);
-
+  //draws the current score
   text('Score: ' + score, width - 400, 100)
 
 
@@ -401,7 +402,7 @@ function drawBackground() {
 
 
 function sunDisplay() {
-  //every 720 frames(12 seconds) a sun falls from the sky
+  //every 720 frames a sun falls from the sky
   if (frameCount % 720 === 0 && lossCheck === false) {
     sunList.push(new sun(0, random(100, width - 100)));
   }
@@ -425,8 +426,12 @@ function sunDisplay() {
 
 function zombieSpawner() {
   //a zombie spawns in a random row
-  if (frameCount % zombieTimer === 0 && lossCheck === false) {
+  //if score is above 50 two zombies spawn instead
+  if (frameCount % zombieTimer === 0 && lossCheck === false && zombieList.length <= 30) {
     zombieList.push(new Zombie(int(random(5) + 1), width, 0))
+    if (score >= 50) {
+      zombieList.push(new Zombie(int(random(5) + 1), width, 0))
+    }
   }
 }
 
@@ -435,9 +440,11 @@ function zombieSpawner() {
 
 
 
+
+
 function reset() {
   //used for if a zombie touches the house on the left
-  //causing you to lose the game
+  //causing you to lose the game and resets all aspects of the game
   if (lossCheck === true) {
     push();
     fill(100, 0, 100);
@@ -450,6 +457,9 @@ function reset() {
     textSize(64);
     text(restartTimer, width / 2 - 25, height / 2 + 300)
     pop();
+
+    backgroundMusic.pause();
+
 
 
     //resets all the plants, suns, and zombies
@@ -467,13 +477,14 @@ function reset() {
     score = 0;
     sunAmount = 50;
 
-    //every 60 frames (1 sec) the timer -1 until it hits 0
+    //every 60 frames the timer -1 until it hits 0
     //then the game restarts
 
     if (frameCount % 60 === 0) {
       restartTimer--;
       if (restartTimer === 0) {
         lossCheck = false;
+        musicStarted = false;
         restartTimer = 10;
       }
     }

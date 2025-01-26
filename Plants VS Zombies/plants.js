@@ -41,7 +41,8 @@ class plants {
   display() {
     push();
     imageMode(CENTER);
-
+    //displays the correct plant based on plantGrid location
+    //loops through all grid spots and checks if a plant is there
     for (let x = 0; x < NUM_COLS; x++) {
       for (let y = 0; y < NUM_ROWS; y++) {
         if (this.plantGrid[y][x] === 1) {
@@ -78,13 +79,13 @@ class plants {
     //peashot ability
 
     //normal peashooter
-    if (this.plantGrid[this.row][this.col] === 1 && frameCount % 120 === 0) {
+    if (this.plantGrid[this.row][this.col] === 1 && frameCount % 120 === 0 && peaList.length < 75) {
       peaList.push(new peaShot(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + 30, this.row))
     }
 
 
     //rapid peashooter
-    if (this.plantGrid[this.row][this.col] === 5 && frameCount % 80 === 0) {
+    if (this.plantGrid[this.row][this.col] === 5 && frameCount % 80 === 0 && peaList.length < 75) {
       peaList.push(new peaShot(this.col * rectWidth + rectWidth / 2, this.row * rectHeight + 30, this.row))
     }
     //sunflower ability
@@ -96,7 +97,10 @@ class plants {
   }
 
   death() {
+    //death check for the plants
+    //subtracts health if a zombie is touching them
     if (this.beingAte === true) {
+      //if the plant is a potato mine it explodes causing it and the nearby zombies to instantly die
       if (this.type === 4) {
         this.health -= 360;
       }
@@ -104,7 +108,7 @@ class plants {
       this.beingAte = false;
     }
 
-    //removes the plant from the plantGrid and plantList
+    //removes the plant from the plantGrid and plantList if dead
     for (let i = 0; i < plantList.length; i++) {
       if (plantList[i].health <= 0) {
         plantGrid[this.row][this.col] = 0
@@ -113,8 +117,8 @@ class plants {
     }
   }
 
-  //cleans up draw loops slightly
-  actions() {
+
+  actions() {  //cleans up draw loops slightly
     this.update();
     this.display();
     this.abilities();
